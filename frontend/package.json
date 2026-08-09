@@ -10,15 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@lottiefiles/react-lottie-player": "^3.5.3",
+    "axios": "^1.7.2",
+    "canvas-confetti": "^1.9.3",
+    "framer-motion": "^11.2.10",
+    "lucide-react": "^1.30.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-router-dom": "^6.23.1",
-    "axios": "^1.7.2",
     "recharts": "^2.12.7",
-    "lucide-react": "^0.395.0",
-    "canvas-confetti": "^1.9.3",
-    "@lottiefiles/react-lottie-player": "^3.5.3",
-    "framer-motion": "^11.2.10",
     "three": "^0.165.0"
   },
   "devDependencies": {
