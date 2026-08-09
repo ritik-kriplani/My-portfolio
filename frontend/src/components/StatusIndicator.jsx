@@ -9,7 +9,7 @@ export default function StatusIndicator() {
     const checkHealth = async () => {
       const startTime = Date.now();
       try {
-        const response = await axios.get('http://localhost:5000/api/health');
+        const response = await axios.get('https://my-portfolio-6tlq.onrender.com/api/health');
         if (response.data.status === 'online' && response.data.database === 'connected') {
           setStatus('online');
           setLatency(Date.now() - startTime);

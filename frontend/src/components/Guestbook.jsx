@@ -23,7 +23,7 @@ export default function Guestbook() {
 
   const fetchApprovedComments = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/guestbook');
+      const res = await axios.get('https://my-portfolio-6tlq.onrender.com/api/guestbook');
       setComments(res.data);
     } catch (err) {
       console.error('Error fetching guestbook approved comments:', err);
@@ -51,7 +51,7 @@ export default function Guestbook() {
     trackClick('guestbook-signature-submit');
 
     try {
-      const res = await axios.post('http://localhost:5000/api/guestbook', {
+      const res = await axios.post('https://my-portfolio-6tlq.onrender.com/api/guestbook', {
         name,
         comment,
         avatarSeed

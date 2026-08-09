@@ -10,7 +10,7 @@ export default function About() {
   useEffect(() => {
     const fetchSkills = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/skills');
+        const response = await axios.get('https://my-portfolio-6tlq.onrender.com/api/skills');
         setSkills(response.data);
       } catch (error) {
         console.error('Error fetching skills list:', error);

@@ -17,7 +17,7 @@ export default function Contact() {
     trackClick('contact-form-submit');
 
     try {
-      const res = await axios.post('http://localhost:5000/api/contacts', {
+      const res = await axios.post('https://my-portfolio-6tlq.onrender.com/api/contacts', {
         name,
         email,
         message

@@ -48,7 +48,7 @@ export default function AdminDashboard({ onLogout }) {
   // --- API Fetches ---
   const fetchAnalytics = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/analytics/stats', getHeaders());
+      const res = await axios.get('https://my-portfolio-6tlq.onrender.com/api/analytics/stats', getHeaders());
       setStats(res.data);
     } catch (err) {
       handleAuthError(err);
@@ -57,7 +57,7 @@ export default function AdminDashboard({ onLogout }) {
 
   const fetchContacts = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/contacts', getHeaders());
+      const res = await axios.get('https://my-portfolio-6tlq.onrender.com/api/contacts', getHeaders());
       setContacts(res.data);
     } catch (err) {
       handleAuthError(err);
@@ -66,7 +66,7 @@ export default function AdminDashboard({ onLogout }) {
 
   const fetchComments = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/guestbook/all', getHeaders());
+      const res = await axios.get('https://my-portfolio-6tlq.onrender.com/api/guestbook/all', getHeaders());
       setComments(res.data);
     } catch (err) {
       handleAuthError(err);
@@ -75,7 +75,7 @@ export default function AdminDashboard({ onLogout }) {
 
   const fetchSkills = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/skills');
+      const res = await axios.get('https://my-portfolio-6tlq.onrender.com/api/skills');
       setSkills(res.data);
     } catch (err) {
       console.error(err);
@@ -84,7 +84,7 @@ export default function AdminDashboard({ onLogout }) {
 
   const fetchProjects = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/projects');
+      const res = await axios.get('https://my-portfolio-6tlq.onrender.com/api/projects');
       setProjects(res.data);
     } catch (err) {
       console.error(err);
@@ -108,7 +108,7 @@ export default function AdminDashboard({ onLogout }) {
   // --- Contact Operations ---
   const toggleContactRead = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/api/contacts/${id}/read`, {}, getHeaders());
+      await axios.put(`https://my-portfolio-6tlq.onrender.com/api/contacts/${id}/read`, {}, getHeaders());
       fetchContacts();
       fetchAnalytics();
     } catch (err) {
@@ -119,7 +119,7 @@ export default function AdminDashboard({ onLogout }) {
   const deleteContact = async (id) => {
     if (!window.confirm('Delete message thread?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/contacts/${id}`, getHeaders());
+      await axios.delete(`https://my-portfolio-6tlq.onrender.com/api/contacts/${id}`, getHeaders());
       fetchContacts();
       fetchAnalytics();
     } catch (err) {
@@ -130,7 +130,7 @@ export default function AdminDashboard({ onLogout }) {
   // --- Guestbook Operations ---
   const toggleCommentApproval = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/api/guestbook/${id}/approve`, {}, getHeaders());
+      await axios.put(`https://my-portfolio-6tlq.onrender.com/api/guestbook/${id}/approve`, {}, getHeaders());
       fetchComments();
       fetchAnalytics();
     } catch (err) {
@@ -141,7 +141,7 @@ export default function AdminDashboard({ onLogout }) {
   const deleteComment = async (id) => {
     if (!window.confirm('Delete guestbook comment?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/guestbook/${id}`, getHeaders());
+      await axios.delete(`https://my-portfolio-6tlq.onrender.com/api/guestbook/${id}`, getHeaders());
       fetchComments();
       fetchAnalytics();
     } catch (err) {
@@ -171,10 +171,10 @@ export default function AdminDashboard({ onLogout }) {
     try {
       if (editingSkillId) {
         // Update skill
-        await axios.put(`http://localhost:5000/api/skills/${editingSkillId}`, skillForm, getHeaders());
+        await axios.put(`https://my-portfolio-6tlq.onrender.com/api/skills/${editingSkillId}`, skillForm, getHeaders());
       } else {
         // Create skill
-        await axios.post('http://localhost:5000/api/skills', skillForm, getHeaders());
+        await axios.post('https://my-portfolio-6tlq.onrender.com/api/skills', skillForm, getHeaders());
       }
       setIsSkillModalOpen(false);
       fetchSkills();
@@ -186,7 +186,7 @@ export default function AdminDashboard({ onLogout }) {
   const deleteSkill = async (id) => {
     if (!window.confirm('Remove skill listing?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/skills/${id}`, getHeaders());
+      await axios.delete(`https://my-portfolio-6tlq.onrender.com/api/skills/${id}`, getHeaders());
       fetchSkills();
     } catch (err) {
       console.error(err);
@@ -223,10 +223,10 @@ export default function AdminDashboard({ onLogout }) {
     try {
       if (editingProjectId) {
         // Update project
-        await axios.put(`http://localhost:5000/api/projects/${editingProjectId}`, formattedForm, getHeaders());
+        await axios.put(`https://my-portfolio-6tlq.onrender.com/api/projects/${editingProjectId}`, formattedForm, getHeaders());
       } else {
         // Create project
-        await axios.post('http://localhost:5000/api/projects', formattedForm, getHeaders());
+        await axios.post('https://my-portfolio-6tlq.onrender.com/api/projects', formattedForm, getHeaders());
       }
       setIsProjectModalOpen(false);
       fetchProjects();
@@ -238,7 +238,7 @@ export default function AdminDashboard({ onLogout }) {
   const deleteProject = async (id) => {
     if (!window.confirm('Delete project card?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/projects/${id}`, getHeaders());
+      await axios.delete(`https://my-portfolio-6tlq.onrender.com/api/projects/${id}`, getHeaders());
       fetchProjects();
     } catch (err) {
       console.error(err);

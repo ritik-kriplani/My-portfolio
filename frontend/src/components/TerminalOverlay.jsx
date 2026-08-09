@@ -118,7 +118,7 @@ Focus Areas: Fullstack development, WebGL, 3D graphics using Three.js, and compe
 
       case 'skills':
         try {
-          const res = await axios.get('http://localhost:5000/api/skills');
+          const res = await axios.get('https://my-portfolio-6tlq.onrender.com/api/skills');
           const skillLines = res.data.map(
             (s) => `${s.name.padEnd(15)} [${'='.repeat(Math.round(s.level / 10))}${' '.repeat(10 - Math.round(s.level / 10))}] ${s.level}%`
           ).join('\n');
@@ -130,7 +130,7 @@ Focus Areas: Fullstack development, WebGL, 3D graphics using Three.js, and compe
 
       case 'projects':
         try {
-          const res = await axios.get('http://localhost:5000/api/projects');
+          const res = await axios.get('https://my-portfolio-6tlq.onrender.com/api/projects');
           const projectLines = res.data.map(
             (p, idx) => `[${idx + 1}] ${p.title} - ${p.description}\n    Tech Stack: ${p.techTags.join(', ')}`
           ).join('\n\n');
@@ -158,7 +158,7 @@ Focus Areas: Fullstack development, WebGL, 3D graphics using Three.js, and compe
       case 'ping':
         const start = Date.now();
         try {
-          await axios.get('http://localhost:5000/api/health');
+          await axios.get('https://my-portfolio-6tlq.onrender.com/api/health');
           newHistory.push({ text: `Connection status: ONLINE. Ping latency: ${Date.now() - start}ms`, type: 'output' });
         } catch (e) {
           newHistory.push({ text: 'Connection status: OFFLINE. Cannot reach API server.', type: 'error' });
@@ -186,7 +186,7 @@ Focus Areas: Fullstack development, WebGL, 3D graphics using Three.js, and compe
           const [_, name, email, message] = contactMatches;
           try {
             newHistory.push({ text: 'Submitting message to database, please wait...', type: 'system' });
-            await axios.post('http://localhost:5000/api/contacts', { name, email, message });
+            await axios.post('https://my-portfolio-6tlq.onrender.com/api/contacts', { name, email, message });
             newHistory.push({ text: `Success! Thank you ${name}. Your message has been logged in Ritik's database.`, type: 'output' });
           } catch (e) {
             newHistory.push({ text: 'Error submitting contact form entry.', type: 'error' });
@@ -203,7 +203,7 @@ Focus Areas: Fullstack development, WebGL, 3D graphics using Three.js, and compe
             const [_, name, comment] = signMatches;
             try {
               newHistory.push({ text: 'Submitting comment, waiting for moderator approval...', type: 'system' });
-              await axios.post('http://localhost:5000/api/guestbook', { name, comment });
+              await axios.post('https://my-portfolio-6tlq.onrender.com/api/guestbook', { name, comment });
               newHistory.push({ text: `Successfully registered! Thanks for signing the guestbook, ${name}.`, type: 'output' });
             } catch (e) {
               newHistory.push({ text: 'Failed to write comment to guestbook database.', type: 'error' });
@@ -213,7 +213,7 @@ Focus Areas: Fullstack development, WebGL, 3D graphics using Three.js, and compe
           }
         } else {
           try {
-            const res = await axios.get('http://localhost:5000/api/guestbook');
+            const res = await axios.get('https://my-portfolio-6tlq.onrender.com/api/guestbook');
             const commentsLines = res.data.map(
               (c) => `[${new Date(c.createdAt).toLocaleDateString()}] ${c.name}: "${c.comment}"`
             ).join('\n');

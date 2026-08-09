@@ -13,7 +13,7 @@ export default function AdminLogin({ onLoginSuccess }) {
     // If token exists, verify and skip login
     const token = localStorage.getItem('adminToken');
     if (token) {
-      axios.get('http://localhost:5000/api/auth/verify', {
+      axios.get('https://my-portfolio-6tlq.onrender.com/api/auth/verify', {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(() => {
@@ -34,7 +34,7 @@ export default function AdminLogin({ onLoginSuccess }) {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await axios.post('https://my-portfolio-6tlq.onrender.com/api/auth/login', {
         username,
         password
       });
