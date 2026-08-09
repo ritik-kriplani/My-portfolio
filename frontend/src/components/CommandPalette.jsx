@@ -8,11 +8,10 @@ import {
   BookOpen,
   Mail,
   Terminal,
-  Github,
-  Linkedin,
   ShieldCheck,
   CornerDownLeft,
 } from 'lucide-react';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { trackClick } from '../utils/analyticsTracker';
 
 const RECENTS_KEY = 'rk-command-palette-recents';
@@ -93,8 +92,8 @@ export default function CommandPalette({ isOpen, onClose, onOpenTerminal }) {
       { id: 'guestbook', label: 'Guestbook', hint: 'visitor comments', group: 'Navigate', icon: BookOpen, run: () => scrollToSection('#guestbook') },
       { id: 'contact', label: 'Contact', hint: 'get in touch', group: 'Navigate', icon: Mail, run: () => scrollToSection('#contact') },
       { id: 'shell', label: 'Open Developer Shell', hint: 'interactive terminal', group: 'Actions', icon: Terminal, run: onOpenTerminal },
-      { id: 'github', label: 'Visit GitHub', hint: 'code repositories', group: 'Actions', icon: Github, run: () => window.open('https://github.com/your_username', '_blank', 'noopener,noreferrer') },
-      { id: 'linkedin', label: 'Visit LinkedIn', hint: 'professional profile', group: 'Actions', icon: Linkedin, run: () => window.open('https://linkedin.com/in/your_username', '_blank', 'noopener,noreferrer') },
+      { id: 'github', label: 'Visit GitHub', hint: 'code repositories', group: 'Actions', icon: FaGithub, run: () => window.open('https://github.com/your_username', '_blank', 'noopener,noreferrer') },
+      { id: 'linkedin', label: 'Visit LinkedIn', hint: 'professional profile', group: 'Actions', icon: FaLinkedin, run: () => window.open('https://linkedin.com/in/your_username', '_blank', 'noopener,noreferrer') },
       { id: 'admin', label: 'Go to Admin Panel', hint: 'restricted area', group: 'Actions', icon: ShieldCheck, run: () => navigate('/admin') },
     ],
     [navigate, onOpenTerminal]
