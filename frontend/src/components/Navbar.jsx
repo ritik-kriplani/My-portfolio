@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import StatusIndicator from './StatusIndicator';
 import { trackClick } from '../utils/analyticsTracker';
 
-export default function Navbar({ onTerminalToggle }) {
+export default function Navbar({ onTerminalToggle, onPaletteToggle }) {
   const [active, setActive] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
@@ -78,8 +78,16 @@ export default function Navbar({ onTerminalToggle }) {
           )}
         </ul>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
           <StatusIndicator />
+          <button
+            className="palette-trigger"
+            onClick={onPaletteToggle}
+            title="Open Command Palette (Ctrl + K)"
+          >
+            <i className="fas fa-search" style={{ fontSize: '0.8rem' }}></i>
+            <span className="kbd">Ctrl K</span>
+          </button>
           <div className={`hamburger ${active ? 'active' : ''}`} onClick={handleToggle}>
             <span className="bar"></span>
             <span className="bar"></span>

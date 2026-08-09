@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 
 // Main Site Components
@@ -10,6 +10,8 @@ import Guestbook from './components/Guestbook';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import TerminalOverlay from './components/TerminalOverlay';
+import CommandPalette from './components/CommandPalette';
+import ScrollProgress from './components/ScrollProgress';
 
 // Admin Components
 import AdminLogin from './admin/AdminLogin';
@@ -18,10 +20,10 @@ import AdminDashboard from './admin/AdminDashboard';
 // Analytics Tracker
 import { trackPageView, trackClick } from './utils/analyticsTracker';
 
-function LandingPage({ onTerminalToggle }) {
+function LandingPage({ onTerminalToggle, onPaletteToggle }) {
   return (
     <>
-      <Navbar onTerminalToggle={onTerminalToggle} />
+      <Navbar onTerminalToggle={onTerminalToggle} onPaletteToggle={onPaletteToggle} />
       <Home />
       <About />
       <Projects />
@@ -34,6 +36,7 @@ function LandingPage({ onTerminalToggle }) {
 
 export default function App() {
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
+  const [isPaletteOpen, setIsPaletteOpen] = useState(false);
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(
     !!localStorage.getItem('adminToken')
   );
@@ -50,13 +53,40 @@ export default function App() {
     setIsTerminalOpen(!isTerminalOpen);
   };
 
+  const openTerminal = useCallback(() => setIsTerminalOpen(true), []);
+
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
+  const handlePaletteToggle = useCallback(() => {
+    if (isAdminRoute) return;
+    trackClick('command-palette-toggle');
+    setIsPaletteOpen((prev) => !prev);
+  }, [isAdminRoute]);
+
+  // Global shortcut: Ctrl+K / Cmd+K opens the command palette
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        handlePaletteToggle();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handlePaletteToggle]);
+
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
       <Routes>
         {/* Main Base Page */}
         <Route 
           path="/" 
-          element={<LandingPage onTerminalToggle={handleTerminalToggle} />} 
+          element={
+            <LandingPage 
+              onTerminalToggle={handleTerminalToggle} 
+              onPaletteToggle={handlePaletteToggle} 
+            />
+          } 
         />
         
         {/* Admin Login Route */}
@@ -103,6 +133,16 @@ export default function App() {
         isOpen={isTerminalOpen} 
         onClose={() => setIsTerminalOpen(false)} 
       />
+
+      {/* Command Palette Overlay */}
+      <CommandPalette
+        isOpen={isPaletteOpen}
+        onClose={() => setIsPaletteOpen(false)}
+        onOpenTerminal={openTerminal}
+      />
+
+      {/* Neon scroll progress bar (top of page) */}
+      <ScrollProgress />
     </div>
   );
 }

@@ -1461,3 +1461,271 @@ body {
     color: var(--secondary-color);
     border-color: var(--secondary-color);
 }
+
+
+/* ==========================================================================
+   COMMAND PALETTE (Ctrl+K) & SCROLL PROGRESS BAR
+   ========================================================================== */
+
+/* Neon scroll progress bar pinned to the very top */
+.scroll-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    z-index: 10001;
+    background: var(--gradient-primary);
+    box-shadow: 0 0 12px rgba(0, 212, 255, 0.7), 0 0 24px rgba(0, 212, 255, 0.35);
+    border-radius: 0 3px 3px 0;
+    transition: width 0.08s linear;
+    pointer-events: none;
+}
+
+/* Shared keycap styling */
+.kbd {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border-color);
+    border-bottom-width: 2px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+/* Ctrl+K trigger pill in the navbar */
+.palette-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-color);
+    padding: 5px 10px;
+    border-radius: 8px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.78rem;
+    transition: all 0.25s ease;
+}
+
+.palette-trigger:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    background: rgba(0, 212, 255, 0.08);
+    box-shadow: 0 0 12px rgba(0, 212, 255, 0.25);
+}
+
+.palette-trigger:hover .kbd {
+    color: var(--primary-color);
+    border-color: rgba(0, 212, 255, 0.5);
+}
+
+@media (max-width: 900px) {
+    .palette-trigger { display: none; }
+}
+
+/* --- Command Palette Overlay --- */
+.command-palette-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 5, 5, 0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 10001; /* above terminal overlay (10000) */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 16vh 20px 20px;
+    animation: cp-fade-in 0.18s ease both;
+}
+
+.command-palette {
+    width: 100%;
+    max-width: 580px;
+    background: rgba(18, 18, 20, 0.95);
+    border: 1px solid rgba(0, 212, 255, 0.35);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4), 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 212, 255, 0.12);
+    animation: cp-drop-in 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+@keyframes cp-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes cp-drop-in {
+    from { opacity: 0; transform: translateY(-14px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.cp-search-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.cp-search-icon {
+    color: var(--primary-color);
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 6px rgba(0, 212, 255, 0.6));
+}
+
+.cp-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-size: 1.05rem;
+    font-family: inherit;
+    caret-color: var(--primary-color);
+}
+
+.cp-input::placeholder {
+    color: rgba(176, 176, 176, 0.55);
+}
+
+.cp-esc-hint {
+    cursor: pointer;
+    font: inherit;
+    transition: all 0.2s;
+}
+
+.cp-esc-hint:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.cp-esc-hint:hover {
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.cp-list {
+    max-height: 340px;
+    overflow-y: auto;
+    padding: 8px;
+}
+
+.cp-group-label {
+    padding: 10px 12px 6px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(0, 212, 255, 0.75);
+}
+
+.cp-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.92rem;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.12s ease;
+}
+
+.cp-item-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+    flex-shrink: 0;
+    transition: all 0.15s ease;
+}
+
+.cp-item-label {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cp-item-hint {
+    font-size: 0.72rem;
+    color: rgba(176, 176, 176, 0.6);
+    white-space: nowrap;
+}
+
+.cp-item-active {
+    background: linear-gradient(90deg, rgba(0, 212, 255, 0.16), rgba(78, 205, 196, 0.08));
+    border-color: rgba(0, 212, 255, 0.45);
+    box-shadow: 0 0 16px rgba(0, 212, 255, 0.15);
+}
+
+.cp-item-active .cp-item-icon {
+    background: var(--gradient-primary);
+    color: var(--bg-dark);
+}
+
+.cp-item-active .cp-item-hint {
+    color: var(--primary-color);
+}
+
+.cp-match {
+    background: transparent;
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.cp-match-active {
+    color: #bdf4ff;
+}
+
+.cp-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 40px 20px;
+    color: var(--text-secondary);
+}
+
+.cp-empty p {
+    font-size: 0.85rem;
+    word-break: break-word;
+}
+
+.cp-footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-top: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.cp-footer-label {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    margin-right: 8px;
+}
+
+.cp-footer-spark {
+    margin-left: auto;
+    color: rgba(0, 212, 255, 0.6);
+    animation: cp-blink 1.6s ease-in-out infinite;
+}
+
+@keyframes cp-blink {
+    0%, 100% { opacity: 0.25; }
+    50% { opacity: 1; }
+}
