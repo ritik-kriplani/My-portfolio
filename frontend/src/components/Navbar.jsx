@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import StatusIndicator from './StatusIndicator';
 import { trackClick } from '../utils/analyticsTracker';
 
-export default function Navbar({ onTerminalToggle, onPaletteToggle }) {
+export default function Navbar({ onTerminalToggle, onPaletteToggle, theme, onThemeToggle }) {
   const [active, setActive] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
@@ -44,7 +44,7 @@ export default function Navbar({ onTerminalToggle, onPaletteToggle }) {
   };
 
   return (
-    <nav className="navbar" style={{ background: scrolled ? 'rgba(10, 10, 10, 0.98)' : 'rgba(10, 10, 10, 0.95)' }}>
+    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
       <div className="nav-container">
         <div className="nav-logo" style={{ cursor: 'pointer' }} onClick={() => navigate('/')}>RK</div>
         
@@ -87,6 +87,26 @@ export default function Navbar({ onTerminalToggle, onPaletteToggle }) {
           >
             <i className="fas fa-search" style={{ fontSize: '0.8rem' }}></i>
             <span className="kbd">Ctrl K</span>
+          </button>
+          <button
+            className="theme-toggle-btn"
+            onClick={onThemeToggle}
+            title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
+            style={{
+              background: 'rgba(255, 255, 255, 0.04)',
+              border: '1px solid var(--border-color)',
+              padding: '6px 10px',
+              borderRadius: '8px',
+              color: 'var(--text-primary)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '0.85rem',
+              transition: 'all 0.25s ease'
+            }}
+          >
+            <i className={theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon'}></i>
           </button>
           <div className={`hamburger ${active ? 'active' : ''}`} onClick={handleToggle}>
             <span className="bar"></span>

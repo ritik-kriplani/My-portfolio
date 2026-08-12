@@ -1,5 +1,4 @@
 import React from 'react';
-import { Player } from '@lottiefiles/react-lottie-player';
 import { trackClick } from '../utils/analyticsTracker';
 
 export default function ProjectModal({ project, isOpen, onClose }) {
@@ -13,16 +12,15 @@ export default function ProjectModal({ project, isOpen, onClose }) {
     trackClick(`project-github-link-${project.title.replace(/\s+/g, '-').toLowerCase()}`);
   };
 
-  // Check if lottie src is a relative URL (which means local lottie JSON in public folder)
-  const renderLottiePlayer = () => {
-    return (
-      <Player
-        autoplay
-        loop
-        src={project.lottieSrc}
-        style={{ width: '100%', height: '220px' }}
-      />
-    );
+  const getProjectImage = (project) => {
+    const imagesMap = {
+      '3D Gallery': '/3d-gallery.webp',
+      'Particle Background Portfolio': '/particalbg.webp',
+      'Help in Ren Site': '/rensite.webp',
+      'Teachers Panel': '/teachers.webp',
+      'Sparks (SIH PS Website)': '/sparks.webp'
+    };
+    return imagesMap[project.title] || '/particalbg.webp';
   };
 
   return (
@@ -32,7 +30,11 @@ export default function ProjectModal({ project, isOpen, onClose }) {
           <button className="modal-close-btn" onClick={onClose}>
             <i className="fas fa-times"></i>
           </button>
-          {renderLottiePlayer()}
+          <img 
+            src={getProjectImage(project)} 
+            alt={project.title} 
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+          />
         </div>
         <div className="modal-body">
           <h2>{project.title}</h2>

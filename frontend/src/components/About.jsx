@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Player } from '@lottiefiles/react-lottie-player';
-import CanvasParticles from './CanvasParticles';
 import { trackClick } from '../utils/analyticsTracker';
 
 export default function About() {
@@ -25,7 +24,6 @@ export default function About() {
 
   return (
     <section id="about" className="about-section">
-      <CanvasParticles color="#00d4ff" particleCount={50} />
       
       <div className="container">
         <h2 className="section-title">About Me</h2>

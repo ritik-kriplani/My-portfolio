@@ -9,8 +9,8 @@ export default function CanvasParticles({ color = '#00d4ff', particleCount = 60 
     const ctx = canvas.getContext('2d');
     
     let animationFrameId;
-    let width = (canvas.width = canvas.parentElement.offsetWidth);
-    let height = (canvas.height = canvas.parentElement.offsetHeight);
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
 
     // Particle class definition
     class Particle {
@@ -45,9 +45,8 @@ export default function CanvasParticles({ color = '#00d4ff', particleCount = 60 
     let mouse = { x: null, y: null, radius: 140 };
     
     const handleMouseMove = (e) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
     };
 
     const handleMouseLeave = () => {
@@ -55,13 +54,13 @@ export default function CanvasParticles({ color = '#00d4ff', particleCount = 60 
       mouse.y = null;
     };
 
-    canvas.parentElement.addEventListener('mousemove', handleMouseMove);
-    canvas.parentElement.addEventListener('mouseleave', handleMouseLeave);
+    window.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseleave', handleMouseLeave);
 
     const resizeCanvas = () => {
       if (!canvas) return;
-      width = canvas.width = canvas.parentElement.offsetWidth;
-      height = canvas.height = canvas.parentElement.offsetHeight;
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
     };
 
     window.addEventListener('resize', resizeCanvas);
@@ -101,10 +100,18 @@ export default function CanvasParticles({ color = '#00d4ff', particleCount = 60 
               }
             }
 
+            const hexToRgb = (hex) => {
+              const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+              const fullHex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b);
+              const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(fullHex);
+              return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : '0, 212, 255';
+            };
+            const rgbColor = hexToRgb(color);
+
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(0, 212, 255, ${opacity})`;
+            ctx.strokeStyle = `rgba(${rgbColor}, ${opacity})`;
             ctx.lineWidth = 0.8;
             ctx.stroke();
           }
@@ -119,12 +126,11 @@ export default function CanvasParticles({ color = '#00d4ff', particleCount = 60 
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', resizeCanvas);
-      if (canvas && canvas.parentElement) {
-        canvas.parentElement.removeEventListener('mousemove', handleMouseMove);
-        canvas.parentElement.removeEventListener('mouseleave', handleMouseLeave);
-      }
+      window.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, [color, particleCount]);
 
-  return <canvas ref={canvasRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 1 }} />;
+  return <canvas ref={canvasRef} style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', pointerEvents: 'none', zIndex: 0 }} />;
 }
+

@@ -20,10 +20,13 @@ import AdminDashboard from './admin/AdminDashboard';
 // Analytics Tracker
 import { trackPageView, trackClick } from './utils/analyticsTracker';
 
-function LandingPage({ onTerminalToggle, onPaletteToggle }) {
+import CanvasParticles from './components/CanvasParticles';
+
+function LandingPage({ onTerminalToggle, onPaletteToggle, theme, toggleTheme }) {
   return (
     <>
-      <Navbar onTerminalToggle={onTerminalToggle} onPaletteToggle={onPaletteToggle} />
+      <CanvasParticles color={theme === 'dark' ? '#00d4ff' : '#000000'} particleCount={70} />
+      <Navbar onTerminalToggle={onTerminalToggle} onPaletteToggle={onPaletteToggle} theme={theme} onThemeToggle={toggleTheme} />
       <Home />
       <About />
       <Projects />
@@ -35,6 +38,9 @@ function LandingPage({ onTerminalToggle, onPaletteToggle }) {
 }
 
 export default function App() {
+  const [theme, setTheme] = useState(
+    localStorage.getItem('theme') || 'dark'
+  );
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
   const [isPaletteOpen, setIsPaletteOpen] = useState(false);
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(
@@ -42,6 +48,16 @@ export default function App() {
   );
   
   const location = useLocation();
+
+  // Apply theme class to document
+  useEffect(() => {
+    if (theme === 'light') {
+      document.documentElement.classList.add('light-theme');
+    } else {
+      document.documentElement.classList.remove('light-theme');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
   // Log pageview analytics on route changes
   useEffect(() => {
@@ -75,6 +91,11 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handlePaletteToggle]);
 
+  const toggleTheme = () => {
+    trackClick('theme-toggle-click');
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
+
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
       <Routes>
@@ -85,6 +106,8 @@ export default function App() {
             <LandingPage 
               onTerminalToggle={handleTerminalToggle} 
               onPaletteToggle={handlePaletteToggle} 
+              theme={theme}
+              toggleTheme={toggleTheme}
             />
           } 
         />

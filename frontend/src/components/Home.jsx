@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Player } from '@lottiefiles/react-lottie-player';
-import CanvasParticles from './CanvasParticles';
 import { trackClick } from '../utils/analyticsTracker';
 
 export default function Home() {
@@ -32,7 +31,6 @@ export default function Home() {
 
   return (
     <section id="home" className="home-section">
-      <CanvasParticles color="#00d4ff" particleCount={70} />
       
       <div className="home-content">
         <div className="home-text">

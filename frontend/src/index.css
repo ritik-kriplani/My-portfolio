@@ -21,6 +21,28 @@
     --border-color: #333333;
     --gradient-primary: linear-gradient(135deg, #00d4ff, #4ecdc4);
     --gradient-secondary: linear-gradient(135deg, #ff6b6b, #ffa500);
+    --navbar-bg: rgba(10, 10, 10, 0.95);
+    --navbar-bg-scrolled: rgba(10, 10, 10, 0.98);
+    --section-bg: rgba(0, 0, 0, 0.45);
+    --section-bg-alt: rgba(5, 5, 5, 0.45);
+}
+
+.light-theme {
+    --primary-color: #000000;
+    --secondary-color: #444444;
+    --accent-color: #666666;
+    --bg-dark: #ffffff;
+    --bg-darker: #f7f7f7;
+    --text-primary: #000000;
+    --text-secondary: #444444;
+    --card-bg: #f0f0f0;
+    --border-color: #cccccc;
+    --gradient-primary: linear-gradient(135deg, #000000, #333333);
+    --gradient-secondary: linear-gradient(135deg, #333333, #555555);
+    --navbar-bg: rgba(255, 255, 255, 0.95);
+    --navbar-bg-scrolled: rgba(255, 255, 255, 0.98);
+    --section-bg: rgba(255, 255, 255, 0.45);
+    --section-bg-alt: rgba(247, 247, 247, 0.45);
 }
 
 html {
@@ -40,11 +62,16 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(10, 10, 10, 0.95);
+    background: var(--navbar-bg);
     backdrop-filter: blur(10px);
     z-index: 1000;
     padding: 1rem 0;
     transition: all 0.3s ease;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.navbar.scrolled {
+    background: var(--navbar-bg-scrolled);
 }
 
 .nav-container {
@@ -140,17 +167,17 @@ body {
 
 /* About section background */
 .about-section {
-    background: var(--bg-darker);
+    background: var(--section-bg-alt);
 }
 
 /* Projects section background */
 .projects-section {
-    background: var(--bg-dark);
+    background: var(--section-bg);
 }
 
 /* Contact section background */
 .contact-section {
-    background: var(--bg-darker);
+    background: var(--section-bg-alt);
 }
 
 .home-content {
@@ -285,7 +312,7 @@ body {
 /* About Section */
 .about-section {
     padding: 6rem 0;
-    background: var(--bg-darker);
+    background: var(--section-bg-alt);
 }
 
 .container {
@@ -581,12 +608,16 @@ body {
         left: -100%;
         top: 70px;
         flex-direction: column;
-        background-color: var(--bg-dark);
+        background: rgba(10, 10, 10, 0.96);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
         width: 100%;
         text-align: center;
-        transition: 0.3s;
-        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
-        padding: 2rem 0;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        padding: 3rem 0;
+        gap: 1.5rem;
+        border-bottom: 1px solid var(--border-color);
     }
 
     .nav-menu.active {
@@ -594,7 +625,9 @@ body {
     }
 
     .hamburger {
-        display: block;
+        display: flex !important; /* Force flex display when media query is active */
+        flex-direction: column;
+        gap: 5px;
         cursor: pointer;
     }
 
@@ -602,7 +635,6 @@ body {
         display: block;
         width: 25px;
         height: 3px;
-        margin: 5px auto;
         transition: all 0.3s ease-in-out;
         background-color: var(--primary-color);
     }
@@ -611,11 +643,38 @@ body {
     .about-content,
     .contact-content {
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: 3rem;
+        text-align: center;
     }
 
     .home-text h1 {
-        font-size: 2.5rem;
+        font-size: 2.8rem;
+    }
+
+    .home-content {
+        padding-top: 100px;
+        padding-bottom: 60px;
+        min-height: calc(100vh - 70px);
+    }
+
+    .home-visual {
+        margin-top: 2rem;
+        order: -1; /* Display lottie first or second depending on preference, putting it first gives nice visuals */
+    }
+
+    .home-visual > div {
+        width: 280px !important;
+        height: 280px !important;
+    }
+
+    .about-visual > div {
+        width: 240px !important;
+        height: 240px !important;
+    }
+
+    .tech-stack,
+    .cta-buttons {
+        justify-content: center;
     }
 
     .projects-grid {
@@ -959,7 +1018,7 @@ body {
 /* --- Visitor Guestbook Slider UI --- */
 .guestbook-section {
     padding: 6rem 0;
-    background: var(--bg-dark);
+    background: var(--section-bg);
 }
 
 .guestbook-layout {

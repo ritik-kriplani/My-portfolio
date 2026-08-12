@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Player } from '@lottiefiles/react-lottie-player';
-import CanvasParticles from './CanvasParticles';
 import ProjectModal from './ProjectModal';
 import { trackClick } from '../utils/analyticsTracker';
 
@@ -22,6 +20,17 @@ export default function Projects() {
     fetchProjects();
   }, []);
 
+  const getProjectImage = (project) => {
+    const imagesMap = {
+      '3D Gallery': '/3d-gallery.webp',
+      'Particle Background Portfolio': '/particalbg.webp',
+      'Help in Ren Site': '/rensite.webp',
+      'Teachers Panel': '/teachers.webp',
+      'Sparks (SIH PS Website)': '/sparks.webp'
+    };
+    return imagesMap[project.title] || '/particalbg.webp';
+  };
+
   const handleCardClick = (project) => {
     trackClick(`project-card-click-${project.title.replace(/\s+/g, '-').toLowerCase()}`);
     setSelectedProject(project);
@@ -30,7 +39,6 @@ export default function Projects() {
 
   return (
     <section id="projects" className="projects-section">
-      <CanvasParticles color="#00d4ff" particleCount={60} />
       
       <div className="container">
         <h2 className="section-title">My Projects</h2>
@@ -45,11 +53,10 @@ export default function Projects() {
                 style={{ transition: 'all 0.3s ease' }}
               >
                 <div className="project-image">
-                  <Player
-                    autoplay
-                    loop
-                    src={project.lottieSrc}
-                    style={{ width: '100%', height: '160px' }}
+                  <img 
+                    src={getProjectImage(project)} 
+                    alt={project.title} 
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
                   />
                 </div>
                 <div className="project-content">
